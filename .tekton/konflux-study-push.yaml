@@ -616,6 +616,8 @@ spec:
             set -euo pipefail
             microdnf install -y podman shadow-utils
             echo podman/shadow-utils installed
+            chmod 4755 /usr/bin/newgidmap
+            chmod 4755 /usr/bin/newuidmap
             podman build -f Containerfile-out --build-arg BASE_IMAGE=${BASE_IMAGE} --output .
             echo podman executed
             ls -l .
