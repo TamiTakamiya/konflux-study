@@ -615,7 +615,7 @@ spec:
             #!/bin/sh
             set -euo pipefail
             microdnf install -y podman
-            podman build -f Containerfile-out -e BASE_IMAGE=${BASE_IMAGE} --output .
+            podman build -f Containerfile-out --build-arg BASE_IMAGE=${BASE_IMAGE} --output .
             ls -l .
             cat a.out
 
