@@ -1,5 +1,4 @@
-import random
+import datetime
 
 with open("a.out", "w") as OUT:
-    for _ in range(5):
-        OUT.write(str(int(random.random() * 100)) + "\n")
+    OUT.write(str(datetime.datetime.now()))

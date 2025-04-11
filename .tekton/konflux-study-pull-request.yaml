@@ -599,6 +599,29 @@ spec:
         operator: in
         values:
         - "false"
+    - name: copy-from-image
+      runAfter:
+      - build-image-index
+      workspaces:
+      - name: workspace
+        workspace: workspace
+      taskSpec:
+        workspaces:
+        - name: workspace
+        steps:
+        - name: podman-cp
+          env:
+            - name: BASE_IMAGE
+              value: $(tasks.build-image-index.results.IMAGE_URL)
+          image: registry.access.redhat.com/ubi9/ubi-minimal@sha256:ac61c96b93894b9169221e87718733354dd3765dd4a62b275893c7ff0d876869
+          script: |
+            #!/bin/sh
+            set -euo pipefail
+            microdnf install -y podman
+            podman build -f Containerfile-out -e BASE_IMAGE=${BASE_IMAGE} --output .
+            ls -l .
+            cat a.out
+
     workspaces:
     - name: workspace
     - name: git-auth
