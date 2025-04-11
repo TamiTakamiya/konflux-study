@@ -616,7 +616,6 @@ spec:
             set -euo pipefail
             microdnf install -y podman
             podman build                           \
-              --user podman                        \
               --security-opt label=disable         \
               --security-opt unmask=ALL            \ 
               --device /dev/fuse                   \
