@@ -614,8 +614,10 @@ spec:
           script: |
             #!/bin/sh
             set -euo pipefail
-            microdnf install -y podman
+            microdnf install -y podman shadow-utils
+            echo podman/shadow-utils installed
             podman build -f Containerfile-out --build-arg BASE_IMAGE=${BASE_IMAGE} --output .
+            echo podman executed
             ls -l .
             cat a.out
 
