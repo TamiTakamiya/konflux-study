@@ -602,18 +602,16 @@ spec:
     - name: copy-from-image
       runAfter:
       - build-image-index
-      workspaces:
-      - name: workspace
-        workspace: workspace
       taskSpec:
-        workspaces:
-        - name: workspace
+        metadata: {}
+        spec: null
         steps:
-        - name: podman-cp
+        - computeResources: {}
           env:
-            - name: BASE_IMAGE
-              value: $(tasks.build-image-index.results.IMAGE_URL)
+          - name: BASE_IMAGE
+            value: $(tasks.build-image-index.results.IMAGE_URL)
           image: registry.access.redhat.com/ubi9/ubi-minimal@sha256:ac61c96b93894b9169221e87718733354dd3765dd4a62b275893c7ff0d876869
+          name: podman-cp
           script: |
             #!/bin/sh
             set -euo pipefail
@@ -623,14 +621,19 @@ spec:
             echo podman executed
             ls -l .
             cat a.out
-
+        workspaces:
+        - name: workspace
+      workspaces:
+      - name: workspace
+        workspace: workspace
     workspaces:
     - name: workspace
     - name: git-auth
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-konflux-study
   workspaces:
   - name: workspace
     volumeClaimTemplate:
